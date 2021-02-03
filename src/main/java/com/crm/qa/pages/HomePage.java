@@ -43,7 +43,7 @@ public class HomePage extends TestBase {
 			return userNameLabel.getText();
 		}
 		else
-			return "User name is not displayed";
+			return "User name is not displayed after login";
 	}
 	
 	public ContactsPage clickOnContactsLink(){
