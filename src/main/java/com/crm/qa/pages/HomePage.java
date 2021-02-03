@@ -10,21 +10,21 @@ import com.crm.qa.base.TestBase;
 
 public class HomePage extends TestBase {
 
-	@FindBy(xpath = "//td[contains(text(),'User: Naveen K')]")
+	@FindBy(xpath = "//span[@class='user-display']")
 	@CacheLookup
 	WebElement userNameLabel;
 
-	@FindBy(xpath = "//a[contains(text(),'Contacts')]")
+	@FindBy(xpath = "//span[contains(text(),'Contacts')]")
 	WebElement contactsLink;
 	
-	@FindBy(xpath = "//a[contains(text(),'New Contact')]")
+	@FindBy(xpath = "//a[@href='/contacts']/following-sibling::button[@class='ui mini basic icon button']")
 	WebElement newContactLink;
 	
 
-	@FindBy(xpath = "//a[contains(text(),'Deals')]")
+	@FindBy(xpath = "//span[text()='Deals']")
 	WebElement dealsLink;
 
-	@FindBy(xpath = "//a[contains(text(),'Tasks')]")
+	@FindBy(xpath = "//span[text()='Tasks']")
 	WebElement tasksLink;
 
 	// Initializing the Page Objects:
@@ -37,8 +37,13 @@ public class HomePage extends TestBase {
 	}
 	
 	
-	public boolean verifyCorrectUserName(){
-		return userNameLabel.isDisplayed();
+	public String verifyCorrectUserName(){
+		if(userNameLabel.isDisplayed())
+		{
+			return userNameLabel.getText();
+		}
+		else
+			return "User name is not displayed";
 	}
 	
 	public ContactsPage clickOnContactsLink(){
