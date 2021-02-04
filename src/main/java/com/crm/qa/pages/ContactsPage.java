@@ -1,7 +1,11 @@
 package com.crm.qa.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
@@ -10,19 +14,23 @@ import com.crm.qa.base.TestBase;
 
 public class ContactsPage extends TestBase {
 
-	@FindBy(xpath = "//td[contains(text(),'Contacts')]")
+	@FindBy(xpath = "//div[text()='Contacts']")
 	WebElement contactsLabel;
 	
-	@FindBy(id="first_name")
+	@FindBy(xpath = "//span[@class='user-display']")
+	@CacheLookup
+	WebElement userNameLabel;
+	
+	@FindBy(name="first_name")
 	WebElement firstName;
 	
-	@FindBy(id="surname")
+	@FindBy(name="last_name")
 	WebElement lastName;
 	
-	@FindBy(name="client_lookup")
+	@FindBy(xpath="//input[@class='search']")
 	WebElement company;
 	
-	@FindBy(xpath = "//input[@type='submit' and @value='Save']")
+	@FindBy(xpath = "//button[text()='Save']")
 	WebElement saveBtn;
 	
 	
@@ -34,19 +42,26 @@ public class ContactsPage extends TestBase {
 	
 	
 	public boolean verifyContactsLabel(){
+
 		return contactsLabel.isDisplayed();
 	}
 	
 	
-	public void selectContactsByName(String name){
-		driver.findElement(By.xpath("//a[text()='"+name+"']//parent::td[@class='datalistrow']"
-				+ "//preceding-sibling::td[@class='datalistrow']//input[@name='contact_id']")).click();
+	public void selectContactsByName(String name) {
+
+		////a[text()='dev yadav']//parent::td//preceding-sibling::td//input[@type='checkbox']
+		WebElement userCheckBox= driver.findElement(By.xpath("//a[text()='"+name+"']//parent::td//preceding-sibling::td//input[@type='checkbox']"));
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		js.executeScript("arguments[0].click();", userCheckBox);
+
 	}
 	
 	
-	public void createNewContact(String title, String ftName, String ltName, String comp){
-		Select select = new Select(driver.findElement(By.name("title")));
-		select.selectByVisibleText(title);
+	public void createNewContact(String ftName, String ltName, String comp){
+		/*
+		 * Select select = new Select(driver.findElement(By.name("title")));
+		 * select.selectByVisibleText(title);
+		 */
 		
 		firstName.sendKeys(ftName);
 		lastName.sendKeys(ltName);
